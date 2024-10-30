@@ -79,3 +79,17 @@ async function CreateOrderCart(id) {
 }
 
 CreateCategoryCart();
+
+let createCat = document.getElementById("createcat");
+let createItem = document.getElementById("createItem");
+let addCatDiv = document.getElementById("addCat");
+let addItemDiv = document.getElementById("additem");
+createCat.addEventListener("click",()=>{
+addItemDiv.style.display = "none";
+addCatDiv.style.display = "block";
+
+});
+createItem.addEventListener("click" , ()=>{
+  addCatDiv.style.display="none";
+  addItemDiv.style.display = "block";
+});
