@@ -27,7 +27,7 @@
         <button class="left-side-top-btn">Table services</button>
         <button class="left-side-top-btn">Menu</button>
         <button class="left-side-top-btn">Delivery</button>
-        <button class="left-side-top-btn">Accounting</button>
+        <button class="left-side-top-btn"onclick="window.location.href = 'form.html';">Add new</button>
         <button
           class="left-side-top-btn"
           onclick="window.location.href = 'index.html';"
@@ -59,129 +59,145 @@
         <button class="form-create-btn" id="createItem">New Item</button>
       </div>
       <div class="addcat" id="addCat">
-        <form action="" method="post" class="form">
+        <form action="" method="post" class="form" id="formC">
           <label for="">Category Name</label>
           <input
             type="text"
-            name=""
+            name="Cname"
+            id="Cname"
             class="input-text"
             placeholder="CategoryName"
-            id=""
+            
             required
           />
           <label for="">Parent Id</label>
           <input
             type="text"
-            name=""
+            name="PID"
+            id="PID"
             class="input-text"
             placeholder="ParentId"
-            id=""
+            
           />
           <label for="">Parent Name</label>
           <input
             type="text"
-            name=""
+            name="Pname"
+            id="Pname"
             class="input-text"
             placeholder="ParentName"
-            id=""
+            
           />
           <label for="">Created By</label>
           <input
             type="text"
-            name=""
+            name="CBy"
+            id="CBy"
             class="input-text"
             placeholder="CreatedBy"
-            id=""
+            
           />
           <label for=""> Upload Img </label>
           <input
             type="file"
-            name=""
+            name="UpImg"            
+            id="UpImg"
+
             class="input-text"
             placeholder="upload Img"
-            id=""
+            
           />
-          <button type="submit">Add category</button>
+          <button type="submit" id="subCat">Add category</button>
         </form>
       </div>
 
       <div class="additem" id="additem">
-        <form action="" method="post" class="form">
-            <label for="">Item Name</label>
+        <form action="" method="post" class="form" id="formI">
+          <label for="">Item Name</label>
           <input
             type="text"
-            name=""
+            name="ItemName"
+            id="ItemName"
             class="input-text"
             placeholder="ItemName"
             required
-            id=""
+            
           />
-          <label for="">
-            number Of PCs
-          </label>
+          <label for=""> number Of PCs </label>
           <input
             type="text"
-            name=""
+            name="Pcs"            
+            id="Pcs"
+
             class="input-text"
             placeholder="PCs"
             required
-            id=""
+            
           />
           <label for="">Price/pc</label>
           <input
             type="text"
-            name=""
+            name="price"
+            id="price"
             class="input-text"
             placeholder="Price"
             required
-            id=""
+            
           />
           <label for="">Category Id</label>
           <input
             type="text"
-            name=""
+            name="catId"
+            id="catId"
             class="input-text"
             placeholder="CategoryId"
             required
-            id=""
+            
           />
           <label for="">Weight/pc</label>
           <input
             type="text"
-            name=""
+            name="weight"
+            id="weight"
             class="input-text"
             placeholder="weight"
-            id=""
+            
           />
           <label for="">Unit cost</label>
           <input
             type="text"
-            name=""
+            name="unitCost"
+            id="unitCost"
             class="input-text"
             placeholder="UnitCost"
-            id=""
+            
           />
           <label for="">alias</label>
           <input
             type="text"
-            name=""
+            name="alias"
+            id="alias"
             class="input-text"
             placeholder="Alias"
-            id=""
+            
           />
           <label for="">Printer</label>
           <input
             type="text"
-            name=""
+            name="printer"
+            id="printer"
             class="input-text"
             placeholder="printer"
-            id=""
+            
           />
           <label for="">upload Img</label>
-          <input type="file" name="" class="input-text" id="" />
-          <button type="submit">Add Item</button>
+          <input type="file" name="" class="input-text"  />
+          <button type="submit" id="submitBtn">Add Item</button>
         </form>
       </div>
+    </div>
+    <div class="status" >
+      <span id="status"></span>
     </div>
     <script src="index.js"></script>
   </body>

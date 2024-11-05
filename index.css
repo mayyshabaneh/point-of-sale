@@ -169,6 +169,8 @@ body {
 }
 .content-cat {
   display: flex;
+  justify-content: flex-start;
+  
   flex-direction: row;
   flex-wrap: wrap;
 
@@ -599,6 +601,18 @@ body {
 display: flex;
 flex-direction: row;
 gap: 40px;
+}
+.status{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+/* visibility: visible; */
+}
+.statue-span{
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+
 }
 .form{
   display: grid;
