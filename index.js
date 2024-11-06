@@ -1,3 +1,18 @@
+let createCat = document.getElementById("createcat");
+let createItem = document.getElementById("createItem");
+let addCatDiv = document.getElementById("addCat");
+let addItemDiv = document.getElementById("additem");
+let formC = document.getElementById("formC");
+let formI = document.getElementById("formI");
+let catName = document.getElementById("Cname");
+let subCat = document.getElementById("subCat");
+let catId = document.getElementById("catId");
+let price = document.getElementById("price");
+let pcs = document.getElementById("Pcs");
+let itemName = document.getElementById("ItemName");
+let statuss = document.getElementById("status");
+let addNew = document.getElementById("addNew");
+let makeOrd = document.getElementById("makeOrd");
 async function CreateCategoryCart() {
   const response = await fetch("http://192.168.1.136:8000/category/");
   const data = await response.json();
@@ -53,7 +68,8 @@ async function CreateOrderCart(id) {
   );
   contentOrder.innerHTML = "";
   const data = await response.json();
-  data.map(item => {
+
+  data.forEach((item) => {
     const contentOrderCard = document.createElement("div");
     contentOrderCard.className = "content-order-cart";
     contentOrder.appendChild(contentOrderCard);
@@ -87,88 +103,68 @@ async function CreateOrderCart(id) {
     contOrderBody.appendChild(spanOrderPrice);
     contentOrderInf.appendChild(contOrderBody);
   });
-  
 }
 
-CreateCategoryCart();
-
-let createCat = document.getElementById("createcat");
-let createItem = document.getElementById("createItem");
-let addCatDiv = document.getElementById("addCat");
-let addItemDiv = document.getElementById("additem");
-let formC = document.getElementById("formC");
-let formI = document.getElementById("formI");
-let catName = document.getElementById("Cname");
-let subCat = document.getElementById("subCat");
-let catId = document.getElementById("catId");
-let price = document.getElementById("price");
-let pcs = document.getElementById("Pcs");
-let itemName = document.getElementById("ItemName");
-let statuss = document.getElementById("status");
-formI.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const data = new FormData(formI);
-  console.log(Array.from(data));
-  try{
-  const res = await fetch(`http://192.168.1.136:8000/item/`, {
-    method: "POST",
-    headers: { Accept: "application/json", "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: itemName.value,
-      pcs: pcs.value,
-      price: price.value,
-      category_id: catId.value
-    }),
+async function addNewItem() {
+  formI.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = new FormData(formI);
+    console.log(Array.from(data));
+    try {
+      const res = await fetch(`http://192.168.1.136:8000/item/`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: itemName.value,
+          pcs: pcs.value,
+          price: price.value,
+          category_id: catId.value,
+        }),
+      });
+      itemName.value = "";
+      pcs.value = "";
+      price.value = "";
+      catId.value = "";
+      statuss.innerHTML = "Added new item is DONE";
+      statuss.style.backgroundColor = "green";
+      statuss.style.display = "block";
+    } catch (error) {
+      statuss.innerHTML = "Added new item is FAIL";
+      statuss.style.backgroundColor = "red";
+    }
   });
-  itemName.value = "";
-  pcs.value = "";
-  price.value = "";
-  catId.value = "";
-  statuss.innerHTML = "Added new item is DONE";
-    statuss.style.backgroundColor = "green";
-    statuss.style.display = "block";
+  createItem.addEventListener("click", () => {
+    addCatDiv.style.display = "none";
+    addItemDiv.style.display = "block";
+  });
+  formC.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    try {
+      const res = await fetch("http://192.168.1.136:8000/category/", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: catName.value }),
+      });
+
+      catName.value = "";
+      statuss.innerHTML = "Added new Category is DONE";
+      statuss.style.backgroundColor = "green";
+      statuss.style.display = "block";
+    } catch (error) {
+      statuss.innerHTML = "Added new Category is FAIL";
+      statuss.style.backgroundColor = "red";
+    }
+  });
+  createCat.addEventListener("click", () => {
+    addItemDiv.style.display = "none";
+    addCatDiv.style.display = "block";
+  });
 }
-  catch(error){
-    statuss.innerHTML = "Added new item is FAIL";
-    statuss.style.backgroundColor = "red";
-  }
-  const resdata = await res.json();
-  // console.log(resdata);
-});
-
-formC.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const data = new FormData(formC);
-  // console.log(Array.from(data));
-
-  try {
-    const res = await fetch("http://192.168.1.136:8000/category/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: catName.value }),
-    });
-    const resdata = await res.json();
-    // console.log(resdata);
-
-    catName.value = "";
-    statuss.innerHTML = "Added new Category is DONE";
-    statuss.style.backgroundColor = "green";
-    statuss.style.display = "block";
-  } catch (error) {
-    statuss.innerHTML = "Added new Category is FAIL";
-    statuss.style.backgroundColor = "red";
-  }
-});
-
-createCat.addEventListener("click", () => {
-  addItemDiv.style.display = "none";
-  addCatDiv.style.display = "block";
-});
-createItem.addEventListener("click", () => {
-  addCatDiv.style.display = "none";
-  addItemDiv.style.display = "block";
-});
-// console.log(formC);
+makeOrd.addEventListener("click", CreateCategoryCart());
+addNew.addEventListener("click", addNewItem());

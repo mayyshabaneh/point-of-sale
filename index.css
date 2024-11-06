@@ -149,7 +149,7 @@ body {
   width: 62.6947%;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 10px;
 }
 .content-side-search-div {
   display: flex;
