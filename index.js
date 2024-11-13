@@ -13,6 +13,10 @@ let itemName = document.getElementById("ItemName");
 let statuss = document.getElementById("status");
 let addNew = document.getElementById("addNew");
 let makeOrd = document.getElementById("makeOrd");
+let rightSideBody = document.getElementById("right-side-body");
+let totalSum = 0;
+let totalTax = 1;
+let ContentCart = document.getElementById("content-order-cart");
 async function CreateCategoryCart() {
   const response = await fetch("http://192.168.1.136:8000/category/");
   const data = await response.json();
@@ -72,6 +76,8 @@ async function CreateOrderCart(id) {
   data.forEach((item) => {
     const contentOrderCard = document.createElement("div");
     contentOrderCard.className = "content-order-cart";
+    contentOrderCard.id = `${item.id}`;
+
     contentOrder.appendChild(contentOrderCard);
 
     const contentBorder = document.createElement("div");
@@ -102,7 +108,36 @@ async function CreateOrderCart(id) {
     spanOrderPrice.innerHTML = `${item.price} $`;
     contOrderBody.appendChild(spanOrderPrice);
     contentOrderInf.appendChild(contOrderBody);
+    contentOrder.addEventListener(
+      "click",
+     ()=> addOrder(item.name, item.pcs, item.price , item.id)
+    );
   });
+}
+
+function addOrder(item_name, item_pcs, item_price , item_id) {
+  let card = document.createElement("div");
+  card.className = "right-side-body-card";
+  card.id = item_id;
+  let cardLift = document.createElement("div");
+  cardLift.className = "right-side-body-card-left";
+
+  let cardName = document.createElement("span");
+  cardName.innerHTML = item_name;
+  cardLift.appendChild(cardName);
+
+  let cardPcs = document.createElement("span");
+  cardPcs.className = "right-side-body-left-span2";
+  cardPcs.innerHTML = `${item_pcs} pcs`;
+  cardLift.appendChild(cardPcs);
+
+  let cardPrice = document.createElement("span");
+  cardPrice.innerHTML = `$ ${item_price}`;
+  card.appendChild(cardPrice);
+  totalSum += item_price;
+  totalTax = totalSum / 10;
+  card.appendChild(cardLift);
+  rightSideBody.append(card);
 }
 
 async function addNewItem() {
@@ -165,6 +200,9 @@ async function addNewItem() {
     addItemDiv.style.display = "none";
     addCatDiv.style.display = "block";
   });
+}
+function search(){
+
 }
 makeOrd.addEventListener("click", CreateCategoryCart());
 addNew.addEventListener("click", addNewItem());
