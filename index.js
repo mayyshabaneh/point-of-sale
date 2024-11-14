@@ -17,6 +17,7 @@ let rightSideBody = document.getElementById("right-side-body");
 let totalSum = 0;
 let totalTax = 1;
 let ContentCart = document.getElementById("content-order-cart");
+// let search = document.getElementById("Search")
 async function CreateCategoryCart() {
   const response = await fetch("http://192.168.1.136:8000/category/");
   const data = await response.json();
@@ -76,7 +77,7 @@ async function CreateOrderCart(id) {
   data.forEach((item) => {
     const contentOrderCard = document.createElement("div");
     contentOrderCard.className = "content-order-cart";
-    contentOrderCard.id = `${item.id}`;
+    contentOrderCard.id = item.id;
 
     contentOrder.appendChild(contentOrderCard);
 
@@ -108,38 +109,60 @@ async function CreateOrderCart(id) {
     spanOrderPrice.innerHTML = `${item.price} $`;
     contOrderBody.appendChild(spanOrderPrice);
     contentOrderInf.appendChild(contOrderBody);
-    contentOrder.addEventListener(
-      "click",
-     ()=> addOrder(item.name, item.pcs, item.price , item.id)
+    contentOrderCard.addEventListener("click", () =>
+      addOrder(item.name, item.pcs, item.price, item.id)
     );
   });
 }
 
-function addOrder(item_name, item_pcs, item_price , item_id) {
+function addOrder(item_name, item_pcs, item_price, item_id) {
+  console.log(item_name);
+  
   let card = document.createElement("div");
   card.className = "right-side-body-card";
-  card.id = item_id;
+  card.id = item_name;
   let cardLift = document.createElement("div");
   cardLift.className = "right-side-body-card-left";
 
   let cardName = document.createElement("span");
-  cardName.innerHTML = item_name;
+  cardName.innerHTML = item_name + `${item_pcs} pcs`;
   cardLift.appendChild(cardName);
 
-  let cardPcs = document.createElement("span");
-  cardPcs.className = "right-side-body-left-span2";
-  cardPcs.innerHTML = `${item_pcs} pcs`;
-  cardLift.appendChild(cardPcs);
+  // let cardPcs = document.createElement("span");
+  // cardPcs.className = "right-side-body-left-span2";
+  // cardPcs.innerHTML = `${item_pcs} pcs`;
+  // cardLift.appendChild(cardPcs);
 
   let cardPrice = document.createElement("span");
   cardPrice.innerHTML = `$ ${item_price}`;
+  let cardCansel = document.createElement("button");
+  cardCansel.innerHTML = "X";
+  cardCansel.className = "cansel";
+  cardCansel.id = item_id + "delete";
+  card.appendChild(cardCansel);
   card.appendChild(cardPrice);
   totalSum += item_price;
   totalTax = totalSum / 10;
+  document.getElementById("Subtotal").innerHTML = totalSum + "$";
+  document.getElementById("tax").innerHTML = totalTax + "$";
+  document.getElementById("total").innerHTML = totalSum + totalTax + "$";
   card.appendChild(cardLift);
   rightSideBody.append(card);
+  cardCansel.addEventListener("click", () => {
+    card.remove();
+    totalSum -= item_price;
+    totalTax = totalSum / 10;
+    document.getElementById("Subtotal").innerHTML = totalSum + "$";
+    document.getElementById("tax").innerHTML = totalTax + "$";
+    document.getElementById("total").innerHTML = totalSum + totalTax + "$";
+  });
 }
-
+function deleteCard(itemId, itemPrice) {
+  let card = document.getElementById(itemId);
+  if (card) {
+    card.remove();
+  }
+}
 async function addNewItem() {
   formI.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -201,7 +224,8 @@ async function addNewItem() {
     addCatDiv.style.display = "block";
   });
 }
-function search(){
+
+function search() {
 
 }
 makeOrd.addEventListener("click", CreateCategoryCart());
