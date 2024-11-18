@@ -17,14 +17,14 @@ let rightSideBody = document.getElementById("right-side-body");
 let totalSum = 0;
 let totalTax = 1;
 let ContentCart = document.getElementById("content-order-cart");
-// let search = document.getElementById("Search")
+let searchInput = document.getElementById("Search");
 async function CreateCategoryCart() {
   const response = await fetch("http://192.168.1.136:8000/category/");
   const data = await response.json();
   const contentCat = document.getElementById("content-cat");
   contentCat.style.visibility = "hidden";
   let i = 1;
-  const arrCat = data.map(async (cat) => {
+  data.map(async (cat) => {
     const contentCatCart = document.createElement("div");
     if (i <= 8) {
     } else {
@@ -117,7 +117,7 @@ async function CreateOrderCart(id) {
 
 function addOrder(item_name, item_pcs, item_price, item_id) {
   console.log(item_name);
-  
+
   let card = document.createElement("div");
   card.className = "right-side-body-card";
   card.id = item_name;
@@ -225,8 +225,61 @@ async function addNewItem() {
   });
 }
 
-function search() {
+async function search() {
+  let targetVal = searchInput.value.toLowerCase();
+  const contentOrder = document.getElementById("content-order");
+  contentOrder.innerHTML = '';
+  const res = await fetch("http://192.168.1.136:8000/item");
+  const data = await res.json();
+  const item = data.filter((item) => {
+    return item.name.toLowerCase().includes(targetVal);
+  });
 
+  item.forEach((el) => {
+    // console.log(el.name, el.pcs, el.price, el.item_id);
+
+    const contentOrderCard = document.createElement("div");
+    contentOrderCard.className = "content-order-cart";
+    contentOrderCard.id = el.id;
+
+    contentOrder.appendChild(contentOrderCard);
+
+    const contentBorder = document.createElement("div");
+    contentBorder.className = "content-order-border";
+    contentOrderCard.appendChild(contentBorder);
+
+    const contentOrderInf = document.createElement("div");
+    contentOrderInf.className = "content-order-cart-inf";
+    contentOrderCard.appendChild(contentOrderInf);
+
+    const contOrderHead = document.createElement("div");
+    contOrderHead.className = "content-order-cart-head";
+    contentOrderInf.appendChild(contOrderHead);
+
+    const spanHead = document.createElement("span");
+    spanHead.innerHTML = "Orders ---- Kitchen";
+    contOrderHead.appendChild(spanHead);
+
+    const contOrderBody = document.createElement("div");
+    contOrderBody.className = "content-order-cart-body";
+    const spanOrderName = document.createElement("span");
+    spanOrderName.className = "content-order-cart-inf-span1";
+    spanOrderName.innerHTML = el.name;
+    contOrderBody.appendChild(spanOrderName);
+
+    const spanOrderPrice = document.createElement("span");
+    spanOrderPrice.className = "content-order-cart-inf-span2";
+    spanOrderPrice.innerHTML = `${el.price} $`;
+    contOrderBody.appendChild(spanOrderPrice);
+    contentOrderInf.appendChild(contOrderBody);
+
+    contentOrderCard.addEventListener("click", () =>
+      addOrder(el.name, el.pcs, el.price, el.item_id)
+    );
+  });
 }
+
 makeOrd.addEventListener("click", CreateCategoryCart());
+
 addNew.addEventListener("click", addNewItem());
+searchInput.addEventListener("input", () => search());

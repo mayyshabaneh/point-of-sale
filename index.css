@@ -166,10 +166,15 @@ body {
   background-color: rgb(45, 45, 45);
 }
 .content-cat {
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-self: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  height: 50%;
   gap: 10px;
 }
 .content-cat-cart {
@@ -454,7 +459,7 @@ body {
   flex-direction: column;
   height: 250px;
   overflow-y: scroll;
-  justify-content: space-between;
+  scrollbar-width: none;
   gap: 15px;
 }
 .div-trash {
@@ -471,7 +476,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* gap: 30px; */
   background-color: rgb(45, 45, 45);
   padding: 10px;
   border-radius: 10px;
@@ -490,7 +494,6 @@ body {
 }
 .right-side-body-card-left {
   display: flex;
-  
   justify-self: flex-end;
   align-self: flex-end;
   align-items: center;
